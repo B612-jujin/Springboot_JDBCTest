@@ -41,4 +41,28 @@ public String RequestMethod(Model model) {
         return "redirect:/exam01";
     }
 
+    @GetMapping("/edit/{id}") // URL 패턴 변경
+    public String editMethod(@PathVariable(name = "id") int id, Model model){
+        String sql = "select * from person where id = ?";
+        Person person = jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.
+                newInstance(Person.class), id);
+        model.addAttribute("person", person);
+        return "viewPage01_edit";
+    }
+
+
+    @PostMapping("/update")
+    public String updateMethod(@ModelAttribute("Person") Person person) {
+        String sql = "update person set name = ?, age = ?, email = ? where id = ?";
+        int result = jdbcTemplate.update(sql, person.getName(), person.getAge(), person.getEmail(), person.getId());
+        return "redirect:/exam01";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteMethod(@PathVariable(name = "id") int id) {
+        String sql = "delete from person where id = ?";
+        int result = jdbcTemplate.update(sql, id);
+        return "redirect:/exam01";
+    }
 }
+

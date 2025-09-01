@@ -26,8 +26,8 @@
         <td th:text="${person.age}"></td>
         <td th:text="${person.email}"></td>
         <td>
-          <a href="">Edit</a>&nbsp&nbsp&nbsp
-            <a href="">Delete</a>
+          <a th:href="@{'/exam01/edit/' + ${person.id}}">Edit</a>&nbsp&nbsp&nbsp
+            <a th:href="@{'/exam01/delete/'+${person.id}}">Delete</a>
         </td>
       </tr>
     </table>
