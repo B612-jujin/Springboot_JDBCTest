@@ -2,12 +2,12 @@ package kr.ac.kopo.cjj.springboot_jdbctest.controller;
 
 import kr.ac.kopo.cjj.springboot_jdbctest.domain.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,13 +16,29 @@ import java.util.List;
 public class JDBCController {
     @Autowired
     JdbcTemplate jdbcTemplate;
+@GetMapping // 기존 메서드
+public String RequestMethod(Model model) {
+    String sql = "select * from person";
+    List<Person> personList = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Person.class));
+    model.addAttribute("personList", personList);
+    return "viewPage01";
+}
 
-    @GetMapping
-    public String RequestMethod(Model model) {
-        String sql = "select * from person";
-        List<Person> personList= jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Person.class));
-        model.addAttribute("personList", personList);
-        return "viewPage01";
+@GetMapping("/new") // URL 패턴 변경
+    public String newMethod(Model model){
+        Person person = new Person();
+        model.addAttribute("person", person);
+        return "viewPage01_new";
+    }
+
+    @PostMapping("/insert")
+    public String insertMethod(@ModelAttribute Person person){
+        String sql = "insert into person (name, age, email) values (?, ?, ?)";
+        //jdbcTemplate.update(sql, person.getName(), person.getAge(), person.getEmail());
+        Object[] params = {person.getName(),person.getAge(),person.getEmail()};
+//        jdbcTemplate.update(sql, params);
+        int resultCount = jdbcTemplate.update(sql, params);
+        return "redirect:/exam01";
     }
 
 }
