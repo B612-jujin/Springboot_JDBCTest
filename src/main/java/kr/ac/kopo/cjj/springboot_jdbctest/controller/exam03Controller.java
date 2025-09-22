@@ -5,10 +5,7 @@ import kr.ac.kopo.cjj.springboot_jdbctest.repository.MemberRepository03;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/exam03")
@@ -34,4 +31,27 @@ public class exam03Controller {
         repository.insertMethod(member.getName(), member.getAge(), member.getEmail());
         return "redirect:/exam03";
     }
+
+    @GetMapping("/edit/{id}")
+    public String editMethod(Model model, @PathVariable(name = "id") int id) {
+        Member member = repository.selectMethodById(id);
+        model.addAttribute("member", member);
+        return "viewPage03_edit";
+    }
+
+    @PostMapping("/update")
+    public String updateMethod(@ModelAttribute("member")Member member) {
+        repository.updateMethod(member.getName(), member.getAge(), member.getEmail(), member.getId());
+        return "redirect:/exam03";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteMethod(@PathVariable(name = "id") int id) {
+        repository.deleteMethod(id);
+        return "redirect:/exam03";
+    }
+
+
 }
+
+

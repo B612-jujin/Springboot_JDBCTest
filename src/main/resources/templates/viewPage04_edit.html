@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>member 데이터 수정</title>
+
+</head>
+<body>
+    <div align="center">
+        <h3>Update member Data</h3>
+        <br>
+        <form action="#" th:action="@{/exam04/update}" th:object="${member}" method="post">
+            <table border="1" cellpadding="10">
+                <tr>
+                    <th>Name</th>
+                    <td><input type="text" th:field="*{id}" readonly></td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td><input type="text" th:field="*{name}"></td>
+                </tr>
+                <tr>
+                    <th>Age</th>
+                    <td><input type="text" th:field="*{age}"></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><input type="text" th:field="*{email}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="submit">Edit</button></td>
+                </tr>
+
+                <tr th:each="member : ${memberList}">
+                    <td th:text="${member.getId()}"></td>
+                    <td th:text="${member.name}"></td>
+                    <td th:text="${member.age}"></td>
+                    <td th:text="${member.email}"></td>
+                    <td>
+                        <a href="">Edit</a>&nbsp&nbsp&nbsp
+                        <a href="">Delete</a>
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+
+
+    </div>
+</body>
+</html>

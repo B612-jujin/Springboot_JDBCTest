@@ -17,8 +17,8 @@ public interface MemberRepository03 extends JpaRepository<Member, Integer> {
 
 
     @Transactional
-    @Query(value = "select entity from Member entity where id=:e_id")
-    public List<Member> selectMethodById(@Param("e_id") int id);
+    @Query(value = "select entity from Member entity where entity.id=:e_id")
+    public Member selectMethodById(@Param("e_id") int id);
 
 
     @Transactional
@@ -29,7 +29,7 @@ public interface MemberRepository03 extends JpaRepository<Member, Integer> {
     @Transactional
     @Modifying
     @Query(value = "update Member set name = :e_name, age = :e_age, email = :e_email where id = :e_id")
-    public int updateMethod(@Param("e_name")String name, @Param("e_age")int age, @Param("e_email")String email);
+    public int updateMethod(@Param("e_name")String name, @Param("e_age")int age, @Param("e_email")String email, @Param("e_id")int id);
 
 
     @Transactional
